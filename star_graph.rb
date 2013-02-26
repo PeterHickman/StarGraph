@@ -9,7 +9,11 @@ MONTHS = {'Jan' => '01', 'Feb' => '02', 'Mar' => '03', "Apr" => '04', "May" => '
 # into a string usable as a bucket to collect hourly data.
 #
 # Why not just DateTime.parse the line? The performance hit for logs
-# with more than a million lines is far too great!
+# with more than a million lines is far too great! Even using split
+# is more expensive than accessing substrings.
+#
+# Remember that we will call this function for *each* line in the 
+# log files. This is the biggest bottleneck that we can fix.
 
 def make_bucket(line)
   y = line[7..10]
